@@ -1,4 +1,7 @@
 package com.sourav.stockassistant.service.vector;
 
-public class VectorService {
+import org.springframework.stereotype.Service;
+
+@Service
+public interface VectorService {
 }

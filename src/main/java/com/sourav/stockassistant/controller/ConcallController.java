@@ -1,8 +1,24 @@
 package com.sourav.stockassistant.controller;
 
-import org.springframework.stereotype.Controller;
+import com.sourav.stockassistant.request.ConcallRequest;
+import io.micrometer.common.util.StringUtils;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.io.InputStream;
+
+@RestController
+@RequestMapping("/api/v1/concall")
 public class ConcallController {
 
+    @PostMapping ResponseEntity<String> updateConcall(@RequestBody ConcallRequest concallRequest){
+        if(concallRequest==null || StringUtils.isBlank(concallRequest.getStock())){
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Invalid Stock");
+        }
+
+    }
 }

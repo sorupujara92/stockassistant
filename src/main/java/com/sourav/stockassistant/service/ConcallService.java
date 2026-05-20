@@ -1,4 +1,9 @@
 package com.sourav.stockassistant.service;
 
-public class ConcallService {
+import org.springframework.stereotype.Service;
+
+@Service
+public interface ConcallService {
+
+    public void updateConcall(String stockName);
 }
