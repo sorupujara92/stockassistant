@@ -32,8 +32,14 @@ public class ConcallServiceImpl implements ConcallService {
             while ((latestDate = reader.readLine()) != null) {
                 if (latestDate.trim().isEmpty()) continue;
             }
+
         for (Resource resource : resources) {
             System.out.println("Reading: " + resource.getFilename());
+            String fileName = resource.getFilename();
+            String fileNameSplit[] = fileName.split(stockName+"_");
+            if(fileNameSplit!=null && fileNameSplit.length>=2){
+                String wholeDate = fileNameSplit[1];
+            }
 
         }
         } catch (Exception e) {
