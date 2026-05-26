@@ -37,9 +37,12 @@ public class ConcallServiceImpl implements ConcallService {
             System.out.println("Reading: " + resource.getFilename());
             String fileName = resource.getFilename();
             String fileNameSplit[] = fileName.split(stockName+"_");
-            if(fileNameSplit!=null && fileNameSplit.length>=2){
-                String wholeDate = fileNameSplit[1];
-                // get whole date with date present in status
+            if(fileNameSplit.length>=2){
+                String wholeDate = fileNameSplit[1].split("_")[0];
+                if(Integer.parseInt(latestDate)>Integer.parseInt(wholeDate)){
+                    continue;
+                }
+
             }
 
         }
