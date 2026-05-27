@@ -1,6 +1,10 @@
 package com.sourav.stockassistant.service.impl;
 
+import com.sourav.stockassistant.model.StockChunkPayload;
 import com.sourav.stockassistant.service.ConcallService;
+import com.sourav.stockassistant.service.PdfChunkService;
+import com.sourav.stockassistant.service.vector.VectorService;
+import io.weaviate.client6.v1.api.WeaviateClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -8,12 +12,23 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ConcallServiceImpl implements ConcallService {
 
     @Autowired
     private ResourceLoader resourceLoader;
+
+    @Autowired
+    VectorService vectorService;
+
+    @Autowired
+    PdfChunkService pdfChunkService;
+
+    @Autowired
+    WeaviateClient weaviateClient;
 
     @Override
     public void updateConcall(String stockName) {
@@ -34,15 +49,24 @@ public class ConcallServiceImpl implements ConcallService {
             }
 
         for (Resource resource : resources) {
-            System.out.println("Reading: " + resource.getFilename());
             String fileName = resource.getFilename();
+
             String fileNameSplit[] = fileName.split(stockName+"_");
             if(fileNameSplit.length>=2){
                 String wholeDate = fileNameSplit[1].split("_")[0];
                 if(Integer.parseInt(latestDate)>Integer.parseInt(wholeDate)){
                     continue;
                 }
-
+                List<String> chunks = pdfChunkService.extractSemanticChunks(resource.getFilePath().toString());
+                List<StockChunkPayload> stockChunkPayloads = new ArrayList<>();
+                chunks.stream().forEach(s -> {
+                    StockChunkPayload stockChunkPayload = new StockChunkPayload();
+                    stockChunkPayload.setContent(s);
+                    stockChunkPayload.setStockName(stockName);
+                    stockChunkPayload.setFileName(fileName);
+                    stockChunkPayloads.add(stockChunkPayload);
+                });
+                vectorService.ingestStockChunksBatch(weaviateClient,stockChunkPayloads);
             }
 
         }

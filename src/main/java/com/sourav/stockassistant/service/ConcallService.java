@@ -5,5 +5,5 @@ import org.springframework.stereotype.Service;
 @Service
 public interface ConcallService {
 
-    public void updateConcall(String stockName);
+    void updateConcall(String stockName);
 }
