@@ -5,12 +5,9 @@ import com.sourav.stockassistant.service.vector.VectorService;
 
 import io.weaviate.client6.v1.api.WeaviateClient;
 import io.weaviate.client6.v1.api.collections.CollectionHandle;
-import io.weaviate.client6.v1.api.collections.WeaviateObject;
-import io.weaviate.client6.v1.internal.ObjectBuilder;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.function.Function;
 
 public class VectorServiceImpl implements VectorService {
 
