@@ -5,10 +5,12 @@ import com.sourav.stockassistant.service.vector.VectorService;
 
 import io.weaviate.client6.v1.api.WeaviateClient;
 import io.weaviate.client6.v1.api.collections.CollectionHandle;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.*;
 
+@Service
 public class VectorServiceImpl implements VectorService {
 
     @Override
