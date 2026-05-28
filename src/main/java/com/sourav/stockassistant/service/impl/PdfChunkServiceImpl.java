@@ -1,5 +1,6 @@
-package com.sourav.stockassistant.service;
+package com.sourav.stockassistant.service.impl;
 
+import com.sourav.stockassistant.service.PdfChunkService;
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;

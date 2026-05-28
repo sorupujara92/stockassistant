@@ -3,6 +3,7 @@ package com.sourav.stockassistant.service.impl;
 import com.sourav.stockassistant.model.StockChunkPayload;
 import com.sourav.stockassistant.service.ConcallService;
 import com.sourav.stockassistant.service.PdfChunkService;
+import com.sourav.stockassistant.service.ScreenerData;
 import com.sourav.stockassistant.service.vector.VectorService;
 import io.weaviate.client6.v1.api.WeaviateClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,8 @@ public class ConcallServiceImpl implements ConcallService {
     @Autowired
     WeaviateClient weaviateClient;
 
+    @Autowired
+    ScreenerData screenerData;
     @Override
     public void updateConcall(String stockName) {
         try {
@@ -59,6 +62,7 @@ public class ConcallServiceImpl implements ConcallService {
                 }
                 List<String> chunks = pdfChunkService.extractSemanticChunks(resource.getFilePath().toString());
                 List<StockChunkPayload> stockChunkPayloads = new ArrayList<>();
+                screenerData.getFinancials(stockName);
                 chunks.stream().forEach(s -> {
                     StockChunkPayload stockChunkPayload = new StockChunkPayload();
                     stockChunkPayload.setContent(s);

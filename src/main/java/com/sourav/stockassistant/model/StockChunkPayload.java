@@ -4,6 +4,15 @@ public class StockChunkPayload {
     private String stockName;
     private String content;
     private String fileName;
+    private String financials;
+
+    public String getFinancials() {
+        return financials;
+    }
+
+    public void setFinancials(String financials) {
+        this.financials = financials;
+    }
 
     public String getStockName() {
         return stockName;
