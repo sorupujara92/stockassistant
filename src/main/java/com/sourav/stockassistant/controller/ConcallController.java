@@ -17,6 +17,7 @@ public class ConcallController {
 
     @Autowired
     ConcallService concallService;
+
     @PostMapping ResponseEntity<String> updateConcall(@RequestBody ConcallRequest concallRequest) {
         if (concallRequest == null || StringUtils.isBlank(concallRequest.getStock())) {
             return ResponseEntity
