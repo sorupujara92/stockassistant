@@ -19,7 +19,7 @@ public class ScreenerDataImpl implements ScreenerData {
     ResourceLoader resourceLoader;
     @Override
     public String getFinancials(String stockName) throws IOException {
-        String financialData = "classpath:screener_downloads/+" + stockName + ".csv";
+        String financialData = "classpath:screener_downloads/" + stockName + ".json";
         Resource resource = resourceLoader.getResource(financialData);
         BufferedReader reader = new BufferedReader(new InputStreamReader(resource.getInputStream()));
         return reader.lines().collect(Collectors.joining(System.lineSeparator()));

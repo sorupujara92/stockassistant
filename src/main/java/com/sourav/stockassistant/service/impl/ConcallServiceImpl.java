@@ -16,6 +16,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class ConcallServiceImpl implements ConcallService {
@@ -43,32 +44,33 @@ public class ConcallServiceImpl implements ConcallService {
 
         resources = resolver.getResources(path);
 
-            String statusPath = "classpath:concalls/status/+" + stockName + ".csv";
+            String statusPath = "classpath:concalls/status/" + stockName + ".csv";
             Resource concallFileStatusResource = resourceLoader.getResource(statusPath);
             BufferedReader reader = new BufferedReader(new InputStreamReader(concallFileStatusResource.getInputStream()));
             String line;
-            String latestDate;
-            while ((latestDate = reader.readLine()) != null) {
-                if (latestDate.trim().isEmpty()) continue;
+            String latestDate = null;
+            while ((reader.readLine()) != null) {
+                latestDate = reader.readLine();
             }
 
         for (Resource resource : resources) {
             String fileName = resource.getFilename();
 
-            String fileNameSplit[] = fileName.split(stockName+"_");
+            String fileNameSplit[] = fileName.split(stockName.toUpperCase(Locale.ROOT)+"_");
             if(fileNameSplit.length>=2){
                 String wholeDate = fileNameSplit[1].split("_")[0];
-                if(Integer.parseInt(latestDate)>Integer.parseInt(wholeDate)){
+                if(latestDate!=null && Integer.parseInt(latestDate)>Integer.parseInt(wholeDate)){
                     continue;
                 }
                 List<String> chunks = pdfChunkService.extractSemanticChunks(resource.getFilePath().toString());
                 List<StockChunkPayload> stockChunkPayloads = new ArrayList<>();
-                screenerData.getFinancials(stockName);
+                String financials = screenerData.getFinancials(stockName);
                 chunks.stream().forEach(s -> {
                     StockChunkPayload stockChunkPayload = new StockChunkPayload();
                     stockChunkPayload.setContent(s);
                     stockChunkPayload.setStockName(stockName);
                     stockChunkPayload.setFileName(fileName);
+                    stockChunkPayload.setFinancials(financials);
                     stockChunkPayloads.add(stockChunkPayload);
                 });
                 vectorService.ingestStockChunksBatch(weaviateClient,stockChunkPayloads);
