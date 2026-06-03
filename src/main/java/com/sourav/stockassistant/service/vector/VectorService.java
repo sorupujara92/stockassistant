@@ -12,4 +12,14 @@ public interface VectorService {
 
 
     void ingestStockChunksBatch(WeaviateClient client, List<StockChunkPayload> chunks) throws IOException;
+
+    String retrieveStockContext(
+            WeaviateClient client,
+            String stock,
+            String question);
+
+    String askQuestion(
+            WeaviateClient client,
+            String stock,
+            String question);
 }
