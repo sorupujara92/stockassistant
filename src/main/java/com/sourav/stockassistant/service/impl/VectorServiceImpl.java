@@ -40,8 +40,7 @@ public class VectorServiceImpl implements VectorService {
    @Override
    public String retrieveStockContext(
            WeaviateClient client,
-           String stock,
-           String question) {
+           String stock) {
 
         CollectionHandle<Map<String, Object>> collection =
                 client.collections.use("StockDocument");

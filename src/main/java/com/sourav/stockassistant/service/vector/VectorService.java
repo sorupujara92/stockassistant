@@ -15,8 +15,7 @@ public interface VectorService {
 
     String retrieveStockContext(
             WeaviateClient client,
-            String stock,
-            String question);
+            String stock);
 
     String askQuestion(
             WeaviateClient client,
