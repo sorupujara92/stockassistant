@@ -31,24 +31,25 @@ public class StockChatServiceImpl implements StockService {
                 );
 
         String prompt = """
-                Answer ONLY using the supplied context.
+                You are a financial analyst.
                 
-                If information is not available,
-                say:
+                Answer the question using ONLY the provided context.
                 
-                Not found in concall data.
+                If exact numbers are available,
+                calculate.
                 
+                If partial information is available,
+                answer using that information.
+                
+                Only respond with 'Not found in concall data'
+                when the context contains no relevant information.
+                Please respond point to point.
                 Context:
-                
                 %s
                 
                 Question:
-                
                 %s
-                """.formatted(
-                context,
-                question
-        );
+                """.formatted(context, question);
 
         return llmService.ask(prompt);
     }
@@ -63,7 +64,7 @@ public class StockChatServiceImpl implements StockService {
                         client,
                         stock
                 );
-
+        System.out.println(context.length());
         String prompt = """
                 You are an expert stock analyst.
                 

@@ -31,33 +31,15 @@ public class PdfChunkServiceImpl implements PdfChunkService {
 
     private List<String> semanticChunk(String text, int maxChunkSize) {
         List<String> chunks = new ArrayList<>();
-        if (StringUtils.isBlank(text)) {
-            return chunks;
-        }
 
-        String[] paragraphs = text.split("\\r?\\n\\r?\\n");
-        StringBuilder currentChunk = new StringBuilder();
+        for (int start = 0; start < text.length(); start += maxChunkSize) {
 
-        for (String para : paragraphs) {
-            para = para.trim();
-            if (para.isEmpty()) continue;
+            int end = Math.min(
+                    start + maxChunkSize,
+                    text.length()
+            );
 
-            if (currentChunk.length() == 0) {
-                currentChunk.append(para).append("\n\n");
-            }
-            else if (currentChunk.length() + para.length() < maxChunkSize) {
-                currentChunk.append(para).append("\n\n");
-            }
-            // Rule 3: If it doesn't fit, push the current chunk to the list and start a fresh one
-            else {
-                chunks.add(currentChunk.toString().trim());
-                currentChunk = new StringBuilder();
-                currentChunk.append(para).append("\n\n");
-            }
-        }
-
-        if (currentChunk.length() > 0 && StringUtils.isNotBlank(currentChunk.toString())) {
-            chunks.add(currentChunk.toString().trim());
+            chunks.add(text.substring(start, end));
         }
 
         return chunks;

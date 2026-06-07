@@ -30,7 +30,7 @@ public class VectorServiceImpl implements VectorService {
             props.put("stockName", data.getStockName());
             props.put("fileName", data.getFileName());
             props.put("content", data.getContent());
-
+            props.put("financials",data.getFinancials());
             collection.data.insert(props);
         }
 
@@ -79,7 +79,7 @@ public class VectorServiceImpl implements VectorService {
         Bm25 bm25 = Bm25.of(
                 question,
                 b -> b
-                        .limit(5)
+                        .limit(2)
                         .filters(
                                 Filter.property("stockName")
                                         .eq(stock)
