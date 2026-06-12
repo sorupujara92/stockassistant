@@ -1,0 +1,48 @@
+<head>
+    <title>Stock Assistant</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="chat-container">
+
+    <h2>📈 Stock Assistant</h2>
+
+    <select id="stockSelect">
+        <option value="">Select Stock</option>
+        <option value="TCS">TCS</option>
+        <option value="INFY">INFY</option>
+        <option value="IDEAFORGE">IDEAFORGE</option>
+    </select>
+
+    <button onclick="analyzeStock()">
+        Analyze
+    </button>
+
+    <hr>
+
+    <h3>Analysis</h3>
+    <div id="analysis"></div>
+
+    <hr>
+
+    <input
+            type="text"
+            id="question"
+            placeholder="Ask about selected stock..."
+            style="width:70%"
+    />
+
+    <button onclick="askQuestion()">
+        Ask
+    </button>
+
+    <h3>Chat</h3>
+    <div id="chat"></div>
+
+</div>
+
+<script src="app.js"></script>
+
+</body>
